@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Group Leaders</h1>
+
+<table class="table">
+  <thead>
+    <tr class="row">
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @group_leaders.each do |group_leader| %>
+      <tr class="row">
+        <td><%= link_to 'Show', group_leader %></td>
+        <td><%= link_to 'Edit', edit_group_leader_path(group_leader) %></td>
+        <td><%= link_to 'Destroy', group_leader, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Group Leader', new_group_leader_path %>

@@ -1,0 +1,14 @@
+<div class="navbar">
+  <div class="navbar-inner">
+    <%= render partial: "shared/title"%> 
+    <ul class="nav">
+        <%= link_to "Users", users_path, class: "nav-link" %>
+		<%= link_to "Units" , units_path, class: "nav-link"%>
+		<%= link_to "Groups", groups_path, class: "nav-link" %> 
+		<%= link_to "Group Leaders", group_leaders_path, class: "nav-link" %>
+		<%= link_to "Group Members", group_members_path, class: "nav-link" %> 
+		<%= link_to "Meeting Info", meeting_points_path, class: "nav-link" %> 
+    </ul>
+  </div>
+</div>
+<hr/>

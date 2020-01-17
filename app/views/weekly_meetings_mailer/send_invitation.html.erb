@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Welcome to Data Camp, <%= @user.name %></h1>
+    <p>
+    	Dear <% @user.name %>,
+      We would like to invite you join team outing for this week.
+      <br>
+    </p>
+    <p>
+      Please click and enroll below link if you would like to join
+		<b> <%= @url %> </b>
+		<%= link_to @url %>
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Meeting Points</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Remarks</th>
+      <th>Memories</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @meeting_points.each do |meeting_point| %>
+      <tr>
+        <td><%= meeting_point.name %></td>
+        <td><%= meeting_point.remarks %></td>
+        <td><%= meeting_point.memories %></td>
+        <td><%= link_to 'Show', meeting_point %></td>
+        <td><%= link_to 'Edit', edit_meeting_point_path(meeting_point) %></td>
+        <td><%= link_to 'Destroy', meeting_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Meeting Point', new_meeting_point_path %>

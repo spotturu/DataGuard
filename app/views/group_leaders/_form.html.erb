@@ -1,0 +1,17 @@
+<%= form_with(model: group_leader, local: true) do |form| %>
+  <% if group_leader.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(group_leader.errors.count, "error") %> prohibited this group_leader from being saved:</h2>
+
+      <ul>
+        <% group_leader.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

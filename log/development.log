@@ -1,0 +1,2043 @@
+  [1m[35m (28.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (250.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (191.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUnits (20200113215935)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "units" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113215935"]]
+  [1m[35m (123.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateUsers (20200113220307)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar NOT NULL, "last_name" varchar NOT NULL, "email" varchar NOT NULL, "contact_number" integer, "remarks" varchar, "unit_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE  INDEX "index_users_on_unit_id" ON "users" ("unit_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113220307"]]
+  [1m[35m (164.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateGroups (20200113220457)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "groups" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" date NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113220457"]]
+  [1m[35m (133.3ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateGroupLeaders (20200113220533)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "group_leaders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "group_id" integer, "user_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE  INDEX "index_group_leaders_on_group_id" ON "group_leaders" ("group_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE  INDEX "index_group_leaders_on_user_id" ON "group_leaders" ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113220533"]]
+  [1m[35m (243.7ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateGroupMembers (20200113220555)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "group_members" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "group_id" integer, "group_leader_id" integer, "user_id" integer, "remarks" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE  INDEX "index_group_members_on_group_id" ON "group_members" ("group_id")[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE  INDEX "index_group_members_on_group_leader_id" ON "group_members" ("group_leader_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE  INDEX "index_group_members_on_user_id" ON "group_members" ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113220555"]]
+  [1m[35m (202.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateMeetingPoints (20200113220641)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "meeting_points" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "remarks" varchar, "memories" text, "group_id" integer, "group_leader_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE  INDEX "index_meeting_points_on_group_id" ON "meeting_points" ("group_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE  INDEX "index_meeting_points_on_group_leader_id" ON "meeting_points" ("group_leader_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113220641"]]
+  [1m[35m (219.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.9ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-01-13 22:17:24.719542"], ["updated_at", "2020-01-13 22:17:24.719542"]]
+  [1m[35m (194.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (5.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (5.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateMeetingPoints (20200113220641)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.9ms)[0m  [1m[35mDROP TABLE "meeting_points"[0m
+  [1m[36mprimary::SchemaMigration Destroy (0.5ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = ?[0m  [["version", "20200113220641"]]
+  [1m[35m (383.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (7.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (11.9ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "-4712-01-01"], ["LIMIT", 1]]
+  [1m[36mGroup Create (13.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "-4712-01-01"], ["created_at", "2020-01-14 03:38:31.505760"], ["updated_at", "2020-01-14 03:38:31.505760"]]
+  [1m[35m (193.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mGroup Load (0.6ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE "groups"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) AND "groups"."id" != ? LIMIT ?[0m  [["name", "2020-01-14"], ["id", 1], ["LIMIT", 1]]
+  [1m[36mGroup Update (1.2ms)[0m  [1m[33mUPDATE "groups" SET "name" = ?, "updated_at" = ? WHERE "groups"."id" = ?[0m  [["name", "2020-01-14"], ["updated_at", "2020-01-14 03:41:02.151081"], ["id", 1]]
+  [1m[35m (116.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (4.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (5.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateGroupMembers (20200113220555)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (23.7ms)[0m  [1m[35mDROP TABLE "group_members"[0m
+  [1m[36mprimary::SchemaMigration Destroy (0.4ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = ?[0m  [["version", "20200113220555"]]
+  [1m[35m (212.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (10.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateGroupMembers (20200113220555)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "group_members" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "group_leader_id" integer, "user_id" integer, "remarks" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (12.2ms)[0m  [1m[35mCREATE  INDEX "index_group_members_on_group_leader_id" ON "group_members" ("group_leader_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE  INDEX "index_group_members_on_user_id" ON "group_members" ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113220555"]]
+  [1m[35m (220.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateMeetingPoints (20200113220641)
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (49.5ms)[0m  [1m[35mCREATE TABLE "meeting_points" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "remarks" varchar, "memories" text, "group_leader_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE  INDEX "index_meeting_points_on_group_leader_id" ON "meeting_points" ("group_leader_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200113220641"]]
+  [1m[35m (193.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (5.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (5.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (5.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (224.5ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (104.0ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (160.5ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[36mGroupLeader Destroy (141.3ms)[0m  [1m[31mDELETE FROM "group_leaders"[0m
+  [1m[35m (4.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (281.1ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (117.6ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (84.5ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[36mGroupLeader Destroy (116.9ms)[0m  [1m[31mDELETE FROM "group_leaders"[0m
+  [1m[36mGroupMember Destroy (113.3ms)[0m  [1m[31mDELETE FROM "group_members"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.0ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 03:57:39.832782"], ["updated_at", "2020-01-14 03:57:39.832782"]]
+  [1m[35m (112.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (0.9ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 03:57:39.953058"], ["updated_at", "2020-01-14 03:57:39.953058"]]
+  [1m[35m (116.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.5ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 03:57:40.076236"], ["updated_at", "2020-01-14 03:57:40.076236"]]
+  [1m[35m (112.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.6ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (5.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Front office"], ["created_at", "2020-01-14 03:58:44.368062"], ["updated_at", "2020-01-14 03:58:44.368062"]]
+  [1m[35m (198.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Load (0.3ms)[0m  [1m[34mSELECT "units".* FROM "units" ORDER BY "units"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (6.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (157.1ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (161.4ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (128.3ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[36mGroupLeader Destroy (207.0ms)[0m  [1m[31mDELETE FROM "group_leaders"[0m
+  [1m[36mGroupMember Destroy (152.2ms)[0m  [1m[31mDELETE FROM "group_members"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:01:55.578879"], ["updated_at", "2020-01-14 04:01:55.578879"]]
+  [1m[35m (101.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.0ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:01:55.688563"], ["updated_at", "2020-01-14 04:01:55.688563"]]
+  [1m[35m (103.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:01:55.801181"], ["updated_at", "2020-01-14 04:01:55.801181"]]
+  [1m[35m (111.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.5ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (7.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (206.7ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (116.3ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (183.6ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[36mGroupLeader Destroy (189.0ms)[0m  [1m[31mDELETE FROM "group_leaders"[0m
+  [1m[36mGroupMember Destroy (345.1ms)[0m  [1m[31mDELETE FROM "group_members"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.5ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:02:32.933891"], ["updated_at", "2020-01-14 04:02:32.933891"]]
+  [1m[35m (232.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.0ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:02:33.177525"], ["updated_at", "2020-01-14 04:02:33.177525"]]
+  [1m[35m (225.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.4ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:02:33.411530"], ["updated_at", "2020-01-14 04:02:33.411530"]]
+  [1m[35m (332.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.6ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (5.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (144.5ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (161.1ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (161.2ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.4ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:06:30.360246"], ["updated_at", "2020-01-14 04:06:30.360246"]]
+  [1m[35m (94.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:06:30.468335"], ["updated_at", "2020-01-14 04:06:30.468335"]]
+  [1m[35m (103.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:06:30.581451"], ["updated_at", "2020-01-14 04:06:30.581451"]]
+  [1m[35m (97.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.6ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (7.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (145.5ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (162.1ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (92.8ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.9ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:07:05.407420"], ["updated_at", "2020-01-14 04:07:05.407420"]]
+  [1m[35m (179.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (0.9ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:07:05.599587"], ["updated_at", "2020-01-14 04:07:05.599587"]]
+  [1m[35m (172.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.0ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:07:05.778702"], ["updated_at", "2020-01-14 04:07:05.778702"]]
+  [1m[35m (115.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.5ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-14"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-14"], ["created_at", "2020-01-14 04:07:06.046609"], ["updated_at", "2020-01-14 04:07:06.046609"]]
+  [1m[35m (135.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-07"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-07"], ["created_at", "2020-01-14 04:07:06.192980"], ["updated_at", "2020-01-14 04:07:06.192980"]]
+  [1m[35m (113.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-31"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-31"], ["created_at", "2020-01-14 04:07:06.316406"], ["updated_at", "2020-01-14 04:07:06.316406"]]
+  [1m[35m (101.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-24"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.8ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-24"], ["created_at", "2020-01-14 04:07:06.427187"], ["updated_at", "2020-01-14 04:07:06.427187"]]
+  [1m[35m (68.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-17"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-17"], ["created_at", "2020-01-14 04:07:06.508910"], ["updated_at", "2020-01-14 04:07:06.508910"]]
+  [1m[35m (129.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-10"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-10"], ["created_at", "2020-01-14 04:07:06.804523"], ["updated_at", "2020-01-14 04:07:06.804523"]]
+  [1m[35m (212.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-03"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-03"], ["created_at", "2020-01-14 04:07:07.027976"], ["updated_at", "2020-01-14 04:07:07.027976"]]
+  [1m[35m (114.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-26"], ["LIMIT", 1]]
+  [1m[36mGroup Create (2.0ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-26"], ["created_at", "2020-01-14 04:07:07.164346"], ["updated_at", "2020-01-14 04:07:07.164346"]]
+  [1m[35m (169.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-19"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-19"], ["created_at", "2020-01-14 04:07:07.348266"], ["updated_at", "2020-01-14 04:07:07.348266"]]
+  [1m[35m (147.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-12"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.0ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-12"], ["created_at", "2020-01-14 04:07:07.514393"], ["updated_at", "2020-01-14 04:07:07.514393"]]
+  [1m[35m (148.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (5.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Load (0.4ms)[0m  [1m[34mSELECT "units".* FROM "units" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (4.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (252.8ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (133.1ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (85.3ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.1ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:09:31.198285"], ["updated_at", "2020-01-14 04:09:31.198285"]]
+  [1m[35m (117.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:09:31.324970"], ["updated_at", "2020-01-14 04:09:31.324970"]]
+  [1m[35m (100.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.7ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:09:31.436718"], ["updated_at", "2020-01-14 04:09:31.436718"]]
+  [1m[35m (143.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.9ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-14"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-14"], ["created_at", "2020-01-14 04:09:31.743029"], ["updated_at", "2020-01-14 04:09:31.743029"]]
+  [1m[35m (168.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-07"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.0ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-07"], ["created_at", "2020-01-14 04:09:31.931948"], ["updated_at", "2020-01-14 04:09:31.931948"]]
+  [1m[35m (229.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-31"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.0ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-31"], ["created_at", "2020-01-14 04:09:32.171045"], ["updated_at", "2020-01-14 04:09:32.171045"]]
+  [1m[35m (147.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-24"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-24"], ["created_at", "2020-01-14 04:09:32.329597"], ["updated_at", "2020-01-14 04:09:32.329597"]]
+  [1m[35m (88.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-17"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.0ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-17"], ["created_at", "2020-01-14 04:09:32.429699"], ["updated_at", "2020-01-14 04:09:32.429699"]]
+  [1m[35m (111.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-10"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-10"], ["created_at", "2020-01-14 04:09:32.552962"], ["updated_at", "2020-01-14 04:09:32.552962"]]
+  [1m[35m (274.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-03"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.5ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-03"], ["created_at", "2020-01-14 04:09:32.840159"], ["updated_at", "2020-01-14 04:09:32.840159"]]
+  [1m[35m (209.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-26"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-26"], ["created_at", "2020-01-14 04:09:33.061223"], ["updated_at", "2020-01-14 04:09:33.061223"]]
+  [1m[35m (101.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-19"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-19"], ["created_at", "2020-01-14 04:09:33.173089"], ["updated_at", "2020-01-14 04:09:33.173089"]]
+  [1m[35m (143.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-12"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.0ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-12"], ["created_at", "2020-01-14 04:09:33.329894"], ["updated_at", "2020-01-14 04:09:33.329894"]]
+  [1m[35m (132.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (7.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mUnit Load (0.3ms)[0m  [1m[34mSELECT "units".* FROM "units" ORDER BY "units"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."unit_id" = ? LIMIT ?[0m  [["unit_id", 17], ["LIMIT", 11]]
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (6.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (155.8ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (138.5ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (104.5ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.5ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:11:28.963412"], ["updated_at", "2020-01-14 04:11:28.963412"]]
+  [1m[35m (116.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.6ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:11:29.094764"], ["updated_at", "2020-01-14 04:11:29.094764"]]
+  [1m[35m (76.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Create (1.5ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:11:29.183688"], ["updated_at", "2020-01-14 04:11:29.183688"]]
+  [1m[35m (130.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.5ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (5.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Load (0.5ms)[0m  [1m[34mSELECT "units".* FROM "units" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mUnit Load (0.6ms)[0m  [1m[34mSELECT "units".* FROM "units" ORDER BY "units"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "fname@sample.com"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "fname@sample.com"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "fname@sample.com"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "fname@sample.com"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (4.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (453.6ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (268.8ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (273.0ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) LIMIT ?[0m  [["name", "IT"], ["LIMIT", 1]]
+  [1m[36mUnit Create (1.4ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:17:35.501075"], ["updated_at", "2020-01-14 04:17:35.501075"]]
+  [1m[35m (250.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) AND "units"."id" != ? LIMIT ?[0m  [["name", "IT"], ["id", 23], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) LIMIT ?[0m  [["name", "Admin"], ["LIMIT", 1]]
+  [1m[36mUnit Create (1.6ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:17:35.779748"], ["updated_at", "2020-01-14 04:17:35.779748"]]
+  [1m[35m (106.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) AND "units"."id" != ? LIMIT ?[0m  [["name", "Admin"], ["id", 24], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) LIMIT ?[0m  [["name", "HR"], ["LIMIT", 1]]
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:17:35.912629"], ["updated_at", "2020-01-14 04:17:35.912629"]]
+  [1m[35m (229.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) AND "units"."id" != ? LIMIT ?[0m  [["name", "HR"], ["id", 25], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (1.0ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_1@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_1"], ["last_name", "l_user_1"], ["email", "user_1@sample.com"], ["unit_id", 23], ["created_at", "2020-01-14 04:17:36.260302"], ["updated_at", "2020-01-14 04:17:36.260302"]]
+  [1m[35m (293.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_1@sample.com"], ["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_2@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_2"], ["last_name", "l_user_2"], ["email", "user_2@sample.com"], ["unit_id", 23], ["created_at", "2020-01-14 04:17:36.581237"], ["updated_at", "2020-01-14 04:17:36.581237"]]
+  [1m[35m (238.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_2@sample.com"], ["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_3@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.7ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_3"], ["last_name", "l_user_3"], ["email", "user_3@sample.com"], ["unit_id", 23], ["created_at", "2020-01-14 04:17:36.847751"], ["updated_at", "2020-01-14 04:17:36.847751"]]
+  [1m[35m (104.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_3@sample.com"], ["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_4@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_4"], ["last_name", "l_user_4"], ["email", "user_4@sample.com"], ["unit_id", 24], ["created_at", "2020-01-14 04:17:36.980220"], ["updated_at", "2020-01-14 04:17:36.980220"]]
+  [1m[35m (282.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_4@sample.com"], ["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_5@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_5"], ["last_name", "l_user_5"], ["email", "user_5@sample.com"], ["unit_id", 24], ["created_at", "2020-01-14 04:17:37.281715"], ["updated_at", "2020-01-14 04:17:37.281715"]]
+  [1m[35m (360.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_5@sample.com"], ["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_6@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_6"], ["last_name", "l_user_6"], ["email", "user_6@sample.com"], ["unit_id", 24], ["created_at", "2020-01-14 04:17:37.669879"], ["updated_at", "2020-01-14 04:17:37.669879"]]
+  [1m[35m (138.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_6@sample.com"], ["id", 6], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_7@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_7"], ["last_name", "l_user_7"], ["email", "user_7@sample.com"], ["unit_id", 25], ["created_at", "2020-01-14 04:17:37.835880"], ["updated_at", "2020-01-14 04:17:37.835880"]]
+  [1m[35m (162.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_7@sample.com"], ["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_8@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_8"], ["last_name", "l_user_8"], ["email", "user_8@sample.com"], ["unit_id", 25], ["created_at", "2020-01-14 04:17:38.028272"], ["updated_at", "2020-01-14 04:17:38.028272"]]
+  [1m[35m (404.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_8@sample.com"], ["id", 8], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_9@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_9"], ["last_name", "l_user_9"], ["email", "user_9@sample.com"], ["unit_id", 25], ["created_at", "2020-01-14 04:17:38.461524"], ["updated_at", "2020-01-14 04:17:38.461524"]]
+  [1m[35m (161.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_9@sample.com"], ["id", 9], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-14"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-14"], ["created_at", "2020-01-14 04:17:38.666467"], ["updated_at", "2020-01-14 04:17:38.666467"]]
+  [1m[35m (287.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-07"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.4ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-07"], ["created_at", "2020-01-14 04:17:38.968821"], ["updated_at", "2020-01-14 04:17:38.968821"]]
+  [1m[35m (161.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-31"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-31"], ["created_at", "2020-01-14 04:17:39.150373"], ["updated_at", "2020-01-14 04:17:39.150373"]]
+  [1m[35m (157.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-24"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-24"], ["created_at", "2020-01-14 04:17:39.324090"], ["updated_at", "2020-01-14 04:17:39.324090"]]
+  [1m[35m (294.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-17"], ["LIMIT", 1]]
+  [1m[36mGroup Create (0.9ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-17"], ["created_at", "2020-01-14 04:17:39.629649"], ["updated_at", "2020-01-14 04:17:39.629649"]]
+  [1m[35m (147.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-10"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-10"], ["created_at", "2020-01-14 04:17:39.793291"], ["updated_at", "2020-01-14 04:17:39.793291"]]
+  [1m[35m (174.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-03"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.7ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-03"], ["created_at", "2020-01-14 04:17:39.984468"], ["updated_at", "2020-01-14 04:17:39.984468"]]
+  [1m[35m (224.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-26"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.4ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-26"], ["created_at", "2020-01-14 04:17:40.228220"], ["updated_at", "2020-01-14 04:17:40.228220"]]
+  [1m[35m (100.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-19"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-19"], ["created_at", "2020-01-14 04:17:40.344366"], ["updated_at", "2020-01-14 04:17:40.344366"]]
+  [1m[35m (120.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-12"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.4ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-12"], ["created_at", "2020-01-14 04:17:40.479439"], ["updated_at", "2020-01-14 04:17:40.479439"]]
+  [1m[35m (272.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (5.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (5.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUnit Destroy (127.4ms)[0m  [1m[31mDELETE FROM "units"[0m
+  [1m[36mUser Destroy (140.9ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[36mGroup Destroy (138.2ms)[0m  [1m[31mDELETE FROM "groups"[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) LIMIT ?[0m  [["name", "IT"], ["LIMIT", 1]]
+  [1m[36mUnit Create (1.3ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "IT"], ["created_at", "2020-01-14 04:19:23.513812"], ["updated_at", "2020-01-14 04:19:23.513812"]]
+  [1m[35m (143.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) AND "units"."id" != ? LIMIT ?[0m  [["name", "IT"], ["id", 26], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) LIMIT ?[0m  [["name", "Admin"], ["LIMIT", 1]]
+  [1m[36mUnit Create (0.9ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Admin"], ["created_at", "2020-01-14 04:19:23.680817"], ["updated_at", "2020-01-14 04:19:23.680817"]]
+  [1m[35m (163.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) AND "units"."id" != ? LIMIT ?[0m  [["name", "Admin"], ["id", 27], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) LIMIT ?[0m  [["name", "HR"], ["LIMIT", 1]]
+  [1m[36mUnit Create (1.0ms)[0m  [1m[32mINSERT INTO "units" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "HR"], ["created_at", "2020-01-14 04:19:23.863923"], ["updated_at", "2020-01-14 04:19:23.863923"]]
+  [1m[35m (113.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUnit Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "units" WHERE LOWER("units"."name") = LOWER(?) AND "units"."id" != ? LIMIT ?[0m  [["name", "HR"], ["id", 28], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUnit Load (0.7ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_1@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (2.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_1"], ["last_name", "l_user_1"], ["email", "user_1@sample.com"], ["unit_id", 26], ["created_at", "2020-01-14 04:19:24.099214"], ["updated_at", "2020-01-14 04:19:24.099214"]]
+  [1m[35m (128.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_1@sample.com"], ["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_2@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_2"], ["last_name", "l_user_2"], ["email", "user_2@sample.com"], ["unit_id", 26], ["created_at", "2020-01-14 04:19:24.261896"], ["updated_at", "2020-01-14 04:19:24.261896"]]
+  [1m[35m (190.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_2@sample.com"], ["id", 11], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_3@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (2.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_3"], ["last_name", "l_user_3"], ["email", "user_3@sample.com"], ["unit_id", 26], ["created_at", "2020-01-14 04:19:24.480831"], ["updated_at", "2020-01-14 04:19:24.480831"]]
+  [1m[35m (157.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_3@sample.com"], ["id", 12], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_4@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_4"], ["last_name", "l_user_4"], ["email", "user_4@sample.com"], ["unit_id", 27], ["created_at", "2020-01-14 04:19:24.675057"], ["updated_at", "2020-01-14 04:19:24.675057"]]
+  [1m[35m (168.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_4@sample.com"], ["id", 13], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_5@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_5"], ["last_name", "l_user_5"], ["email", "user_5@sample.com"], ["unit_id", 27], ["created_at", "2020-01-14 04:19:24.868639"], ["updated_at", "2020-01-14 04:19:24.868639"]]
+  [1m[35m (152.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_5@sample.com"], ["id", 14], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_6@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_6"], ["last_name", "l_user_6"], ["email", "user_6@sample.com"], ["unit_id", 27], ["created_at", "2020-01-14 04:19:25.046179"], ["updated_at", "2020-01-14 04:19:25.046179"]]
+  [1m[35m (129.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_6@sample.com"], ["id", 15], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_7@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.7ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_7"], ["last_name", "l_user_7"], ["email", "user_7@sample.com"], ["unit_id", 28], ["created_at", "2020-01-14 04:19:25.204658"], ["updated_at", "2020-01-14 04:19:25.204658"]]
+  [1m[35m (147.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_7@sample.com"], ["id", 16], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_8@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_8"], ["last_name", "l_user_8"], ["email", "user_8@sample.com"], ["unit_id", 28], ["created_at", "2020-01-14 04:19:25.378603"], ["updated_at", "2020-01-14 04:19:25.378603"]]
+  [1m[35m (130.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_8@sample.com"], ["id", 17], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "user_9@sample.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.7ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "unit_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["first_name", "f_user_9"], ["last_name", "l_user_9"], ["email", "user_9@sample.com"], ["unit_id", 28], ["created_at", "2020-01-14 04:19:25.535411"], ["updated_at", "2020-01-14 04:19:25.535411"]]
+  [1m[35m (106.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) AND "users"."id" != ? LIMIT ?[0m  [["email", "user_9@sample.com"], ["id", 18], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-14"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.0ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-14"], ["created_at", "2020-01-14 04:19:25.682886"], ["updated_at", "2020-01-14 04:19:25.682886"]]
+  [1m[35m (126.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2020-01-07"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2020-01-07"], ["created_at", "2020-01-14 04:19:25.825213"], ["updated_at", "2020-01-14 04:19:25.825213"]]
+  [1m[35m (163.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-31"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-31"], ["created_at", "2020-01-14 04:19:26.001315"], ["updated_at", "2020-01-14 04:19:26.001315"]]
+  [1m[35m (231.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-24"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-24"], ["created_at", "2020-01-14 04:19:26.245823"], ["updated_at", "2020-01-14 04:19:26.245823"]]
+  [1m[35m (342.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-17"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.7ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-17"], ["created_at", "2020-01-14 04:19:26.601432"], ["updated_at", "2020-01-14 04:19:26.601432"]]
+  [1m[35m (255.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-10"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.4ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-10"], ["created_at", "2020-01-14 04:19:26.877923"], ["updated_at", "2020-01-14 04:19:26.877923"]]
+  [1m[35m (131.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-12-03"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.3ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-12-03"], ["created_at", "2020-01-14 04:19:27.023563"], ["updated_at", "2020-01-14 04:19:27.023563"]]
+  [1m[35m (131.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-26"], ["LIMIT", 1]]
+  [1m[36mGroup Create (2.6ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-26"], ["created_at", "2020-01-14 04:19:27.173014"], ["updated_at", "2020-01-14 04:19:27.173014"]]
+  [1m[35m (136.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-19"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-19"], ["created_at", "2020-01-14 04:19:27.325164"], ["updated_at", "2020-01-14 04:19:27.325164"]]
+  [1m[35m (207.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mGroup Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "groups" WHERE LOWER("groups"."name") = LOWER(?) LIMIT ?[0m  [["name", "2019-11-12"], ["LIMIT", 1]]
+  [1m[36mGroup Create (1.2ms)[0m  [1m[32mINSERT INTO "groups" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "2019-11-12"], ["created_at", "2020-01-14 04:19:27.545183"], ["updated_at", "2020-01-14 04:19:27.545183"]]
+  [1m[35m (564.2ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/" for ::1 at 2020-01-14 05:22:51 +0100
+  [1m[35m (8.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 24.3ms | Allocations: 1837)
+[Webpacker] Compiling...
+[Webpacker] Compiled all packs in C:/Users/sony/sample/public/packs
+[Webpacker] Hash: 53154d7baad00c6a1252
+Version: webpack 4.41.5
+Time: 10236ms
+Built at: 01/14/2020 5:23:24 AM
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-0b67a3cc2fcde6055024.js    124 KiB  application  [emitted] [immutable]  application
+js/application-0b67a3cc2fcde6055024.js.map    139 KiB  application  [emitted] [dev]        application
+                             manifest.json  364 bytes               [emitted]              
+Entrypoint application = js/application-0b67a3cc2fcde6055024.js js/application-0b67a3cc2fcde6055024.js.map
+[./app/javascript/channels sync recursive _channel\.js$] ./app/javascript/channels sync _channel\.js$ 160 bytes {application} [built]
+[./app/javascript/channels/index.js] 211 bytes {application} [built]
+[./app/javascript/packs/application.js] 749 bytes {application} [built]
+[./node_modules/webpack/buildin/module.js] (webpack)/buildin/module.js 552 bytes {application} [built]
+    + 3 hidden modules
+
+Completed 200 OK in 33433ms (Views: 33390.8ms | ActiveRecord: 1.1ms | Allocations: 50890)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:26:05 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.4ms | Allocations: 920)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_headers.html.erb (Duration: 0.5ms | Allocations: 86)
+Completed 200 OK in 76ms (Views: 71.2ms | ActiveRecord: 0.3ms | Allocations: 8107)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:26:07 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.7ms | Allocations: 658)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_headers.html.erb (Duration: 0.1ms | Allocations: 6)
+Completed 200 OK in 74ms (Views: 72.4ms | ActiveRecord: 0.5ms | Allocations: 6660)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:26:08 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.4ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_headers.html.erb (Duration: 0.1ms | Allocations: 6)
+Completed 200 OK in 67ms (Views: 66.2ms | ActiveRecord: 0.3ms | Allocations: 6628)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:26:35 +0100
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by MeetingPointsController#index as HTML
+  [1m[36mMeetingPoint Load (0.6ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mCACHE MeetingPoint Load (0.0ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points" LIMIT ?[0m  [["LIMIT", 11]]
+Completed 500 Internal Server Error in 422ms (ActiveRecord: 1.5ms | Allocations: 103375)
+
+
+  
+NameError (Could not render layout: undefined local variable or method `application' for #<MeetingPointsController:0x000000000804e5b8>):
+  
+actionview (6.0.2.1) lib/action_view/layouts.rb:418:in `rescue in _default_layout'
+actionview (6.0.2.1) lib/action_view/layouts.rb:415:in `_default_layout'
+actionview (6.0.2.1) lib/action_view/layouts.rb:392:in `block in _layout_for_option'
+actionview (6.0.2.1) lib/action_view/renderer/template_renderer.rb:102:in `resolve_layout'
+actionview (6.0.2.1) lib/action_view/renderer/template_renderer.rb:81:in `find_layout'
+actionview (6.0.2.1) lib/action_view/renderer/template_renderer.rb:65:in `render_with_layout'
+actionview (6.0.2.1) lib/action_view/renderer/template_renderer.rb:57:in `render_template'
+actionview (6.0.2.1) lib/action_view/renderer/template_renderer.rb:13:in `render'
+actionview (6.0.2.1) lib/action_view/renderer/renderer.rb:61:in `render_template_to_object'
+actionview (6.0.2.1) lib/action_view/renderer/renderer.rb:29:in `render_to_object'
+actionview (6.0.2.1) lib/action_view/rendering.rb:118:in `block in _render_template'
+actionview (6.0.2.1) lib/action_view/base.rb:304:in `in_rendering_context'
+actionview (6.0.2.1) lib/action_view/rendering.rb:117:in `_render_template'
+actionpack (6.0.2.1) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+actionview (6.0.2.1) lib/action_view/rendering.rb:103:in `render_to_body'
+actionpack (6.0.2.1) lib/action_controller/metal/rendering.rb:52:in `render_to_body'
+actionpack (6.0.2.1) lib/action_controller/metal/renderers.rb:142:in `render_to_body'
+actionpack (6.0.2.1) lib/abstract_controller/rendering.rb:25:in `render'
+actionpack (6.0.2.1) lib/action_controller/metal/rendering.rb:36:in `render'
+actionpack (6.0.2.1) lib/action_controller/metal/instrumentation.rb:44:in `block (2 levels) in render'
+activesupport (6.0.2.1) lib/active_support/core_ext/benchmark.rb:14:in `block in ms'
+C:/Ruby25-x64/lib/ruby/2.5.0/benchmark.rb:308:in `realtime'
+activesupport (6.0.2.1) lib/active_support/core_ext/benchmark.rb:14:in `ms'
+actionpack (6.0.2.1) lib/action_controller/metal/instrumentation.rb:44:in `block in render'
+actionpack (6.0.2.1) lib/action_controller/metal/instrumentation.rb:85:in `cleanup_view_runtime'
+activerecord (6.0.2.1) lib/active_record/railties/controller_runtime.rb:34:in `cleanup_view_runtime'
+actionpack (6.0.2.1) lib/action_controller/metal/instrumentation.rb:43:in `render'
+actionpack (6.0.2.1) lib/action_controller/metal/implicit_render.rb:35:in `default_render'
+actionpack (6.0.2.1) lib/action_controller/metal/basic_implicit_render.rb:6:in `block in send_action'
+actionpack (6.0.2.1) lib/action_controller/metal/basic_implicit_render.rb:6:in `tap'
+actionpack (6.0.2.1) lib/action_controller/metal/basic_implicit_render.rb:6:in `send_action'
+actionpack (6.0.2.1) lib/abstract_controller/base.rb:196:in `process_action'
+actionpack (6.0.2.1) lib/action_controller/metal/rendering.rb:30:in `process_action'
+actionpack (6.0.2.1) lib/abstract_controller/callbacks.rb:42:in `block in process_action'
+activesupport (6.0.2.1) lib/active_support/callbacks.rb:135:in `run_callbacks'
+actionpack (6.0.2.1) lib/abstract_controller/callbacks.rb:41:in `process_action'
+actionpack (6.0.2.1) lib/action_controller/metal/rescue.rb:22:in `process_action'
+actionpack (6.0.2.1) lib/action_controller/metal/instrumentation.rb:33:in `block in process_action'
+activesupport (6.0.2.1) lib/active_support/notifications.rb:180:in `block in instrument'
+activesupport (6.0.2.1) lib/active_support/notifications/instrumenter.rb:24:in `instrument'
+activesupport (6.0.2.1) lib/active_support/notifications.rb:180:in `instrument'
+actionpack (6.0.2.1) lib/action_controller/metal/instrumentation.rb:32:in `process_action'
+actionpack (6.0.2.1) lib/action_controller/metal/params_wrapper.rb:245:in `process_action'
+activerecord (6.0.2.1) lib/active_record/railties/controller_runtime.rb:27:in `process_action'
+actionpack (6.0.2.1) lib/abstract_controller/base.rb:136:in `process'
+actionview (6.0.2.1) lib/action_view/rendering.rb:39:in `process'
+actionpack (6.0.2.1) lib/action_controller/metal.rb:191:in `dispatch'
+actionpack (6.0.2.1) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (6.0.2.1) lib/action_dispatch/routing/route_set.rb:51:in `dispatch'
+actionpack (6.0.2.1) lib/action_dispatch/routing/route_set.rb:33:in `serve'
+actionpack (6.0.2.1) lib/action_dispatch/journey/router.rb:49:in `block in serve'
+actionpack (6.0.2.1) lib/action_dispatch/journey/router.rb:32:in `each'
+actionpack (6.0.2.1) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (6.0.2.1) lib/action_dispatch/routing/route_set.rb:837:in `call'
+rack (2.1.1) lib/rack/tempfile_reaper.rb:17:in `call'
+rack (2.1.1) lib/rack/etag.rb:27:in `call'
+rack (2.1.1) lib/rack/conditional_get.rb:27:in `call'
+rack (2.1.1) lib/rack/head.rb:14:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/http/content_security_policy.rb:18:in `call'
+rack (2.1.1) lib/rack/session/abstract/id.rb:277:in `context'
+rack (2.1.1) lib/rack/session/abstract/id.rb:271:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/cookies.rb:648:in `call'
+activerecord (6.0.2.1) lib/active_record/migration.rb:567:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (6.0.2.1) lib/active_support/callbacks.rb:101:in `run_callbacks'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:32:in `call'
+web-console (4.0.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.0.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.2.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (6.0.2.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.2.1) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.2.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.2.1) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.2.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.1.1) lib/rack/method_override.rb:24:in `call'
+rack (2.1.1) lib/rack/runtime.rb:24:in `call'
+activesupport (6.0.2.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.1.1) lib/rack/sendfile.rb:113:in `call'
+actionpack (6.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:83:in `call'
+webpacker (4.2.2) lib/webpacker/dev_server_proxy.rb:23:in `perform_request'
+rack-proxy (0.6.5) lib/rack/proxy.rb:57:in `call'
+railties (6.0.2.1) lib/rails/engine.rb:526:in `call'
+puma (4.3.1) lib/puma/configuration.rb:228:in `call'
+puma (4.3.1) lib/puma/server.rb:681:in `handle_request'
+puma (4.3.1) lib/puma/server.rb:472:in `process_client'
+puma (4.3.1) lib/puma/server.rb:328:in `block in run'
+puma (4.3.1) lib/puma/thread_pool.rb:134:in `block in spawn_thread'
+Started GET "/" for ::1 at 2020-01-14 05:28:56 +0100
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 7.1ms | Allocations: 1352)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_headers.html.erb (Duration: 0.1ms | Allocations: 6)
+Completed 200 OK in 73ms (Views: 63.7ms | ActiveRecord: 1.3ms | Allocations: 8386)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:29:59 +0100
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 8.0ms | Allocations: 1610)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_headers.html.erb (Duration: 0.5ms | Allocations: 83)
+Completed 200 OK in 77ms (Views: 68.1ms | ActiveRecord: 1.3ms | Allocations: 9302)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:30:09 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.1ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_headers.html.erb (Duration: 0.6ms | Allocations: 83)
+Completed 200 OK in 80ms (Views: 76.3ms | ActiveRecord: 0.4ms | Allocations: 7754)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:35:06 +0100
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 8.1ms | Allocations: 1609)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 102)
+  Rendered shared/_headers.html.erb (Duration: 0.5ms | Allocations: 76)
+Completed 200 OK in 79ms (Views: 69.5ms | ActiveRecord: 1.2ms | Allocations: 9647)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:35:33 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.5ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.9ms | Allocations: 106)
+  Rendered shared/_headers.html.erb (Duration: 0.9ms | Allocations: 83)
+Completed 200 OK in 83ms (Views: 78.7ms | ActiveRecord: 0.3ms | Allocations: 8112)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:35:48 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.7ms | Allocations: 920)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 106)
+  Rendered shared/_headers.html.erb (Duration: 0.5ms | Allocations: 82)
+Completed 200 OK in 73ms (Views: 70.0ms | ActiveRecord: 0.3ms | Allocations: 8121)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:36:57 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.3ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.9ms | Allocations: 106)
+  Rendered shared/_headers.html.erb (Duration: 0.5ms | Allocations: 82)
+Completed 200 OK in 79ms (Views: 76.2ms | ActiveRecord: 0.4ms | Allocations: 8103)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:37:01 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 649)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 0.1ms | Allocations: 5)
+Completed 200 OK in 66ms (Views: 63.8ms | ActiveRecord: 0.3ms | Allocations: 6721)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:37:55 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.5ms | Allocations: 919)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 105)
+  Rendered shared/_headers.html.erb (Duration: 0.5ms | Allocations: 82)
+Completed 200 OK in 83ms (Views: 78.8ms | ActiveRecord: 0.3ms | Allocations: 8122)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:38:02 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.0ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.9ms | Allocations: 104)
+  Rendered shared/_headers.html.erb (Duration: 0.9ms | Allocations: 82)
+Completed 200 OK in 89ms (Views: 84.4ms | ActiveRecord: 0.4ms | Allocations: 8102)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:38:16 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 7.7ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.9ms | Allocations: 106)
+  Rendered shared/_headers.html.erb (Duration: 0.9ms | Allocations: 82)
+Completed 200 OK in 109ms (Views: 103.5ms | ActiveRecord: 0.5ms | Allocations: 8107)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:38:34 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 6.8ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 106)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 82)
+Completed 200 OK in 87ms (Views: 82.7ms | ActiveRecord: 0.3ms | Allocations: 8109)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:38:36 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.9ms | Allocations: 649)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 0.0ms | Allocations: 5)
+Completed 200 OK in 62ms (Views: 61.0ms | ActiveRecord: 0.3ms | Allocations: 6721)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:40:37 +0100
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 6.6ms | Allocations: 1340)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.2ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 0.1ms | Allocations: 5)
+Completed 200 OK in 75ms (Views: 67.9ms | ActiveRecord: 1.3ms | Allocations: 8391)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:40:50 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.2ms | Allocations: 916)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 107)
+  Rendered shared/_headers.html.erb (Duration: 0.5ms | Allocations: 82)
+Completed 200 OK in 73ms (Views: 69.7ms | ActiveRecord: 0.4ms | Allocations: 8105)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:45:33 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.0ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 1.0ms | Allocations: 111)
+  Rendered shared/_headers.html.erb (Duration: 5.5ms | Allocations: 1228)
+Completed 200 OK in 87ms (Views: 82.6ms | ActiveRecord: 0.4ms | Allocations: 9276)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:45:35 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.1ms | Allocations: 644)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 0.9ms | Allocations: 356)
+Completed 200 OK in 66ms (Views: 64.7ms | ActiveRecord: 0.3ms | Allocations: 7077)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:46:11 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 2.5ms | Allocations: 604)
+Completed 200 OK in 74ms (Views: 70.9ms | ActiveRecord: 0.3ms | Allocations: 8636)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:46:14 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.1ms | Allocations: 646)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.0ms | Allocations: 425)
+Completed 200 OK in 64ms (Views: 62.8ms | ActiveRecord: 0.3ms | Allocations: 7138)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:48:53 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.7ms | Allocations: 917)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 2.3ms | Allocations: 694)
+Completed 200 OK in 80ms (Views: 77.0ms | ActiveRecord: 0.3ms | Allocations: 8734)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:48:54 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.3ms | Allocations: 643)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.8ms | Allocations: 498)
+Completed 200 OK in 69ms (Views: 66.9ms | ActiveRecord: 0.4ms | Allocations: 7198)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:48:55 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.5ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.8ms | Allocations: 497)
+Completed 200 OK in 69ms (Views: 67.5ms | ActiveRecord: 0.3ms | Allocations: 7205)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:49:22 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.8ms | Allocations: 912)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 304)
+Completed 200 OK in 73ms (Views: 70.3ms | ActiveRecord: 0.3ms | Allocations: 8343)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:49:53 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 112)
+  Rendered shared/_headers.html.erb (Duration: 2.0ms | Allocations: 704)
+Completed 200 OK in 81ms (Views: 76.5ms | ActiveRecord: 0.3ms | Allocations: 8739)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:50:08 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.9ms | Allocations: 914)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.8ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 3.0ms | Allocations: 702)
+Completed 200 OK in 101ms (Views: 96.6ms | ActiveRecord: 0.4ms | Allocations: 8746)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:50:08 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.6ms | Allocations: 646)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.4ms | Allocations: 497)
+Completed 200 OK in 64ms (Views: 63.1ms | ActiveRecord: 0.3ms | Allocations: 7205)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:50:10 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.2ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 497)
+Completed 200 OK in 83ms (Views: 81.1ms | ActiveRecord: 0.4ms | Allocations: 7203)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:50:18 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.0ms | Allocations: 912)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 2.0ms | Allocations: 703)
+Completed 200 OK in 79ms (Views: 76.0ms | ActiveRecord: 0.3ms | Allocations: 8734)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:50:19 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.6ms | Allocations: 643)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.9ms | Allocations: 497)
+Completed 200 OK in 67ms (Views: 65.3ms | ActiveRecord: 0.4ms | Allocations: 7213)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:57:18 +0100
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.8ms | Allocations: 934)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 114)
+  Rendered shared/_headers.html.erb (Duration: 2.1ms | Allocations: 742)
+Completed 200 OK in 80ms (Views: 76.4ms | ActiveRecord: 0.4ms | Allocations: 8809)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:57:20 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.7ms | Allocations: 646)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 5.9ms | Allocations: 497)
+Completed 200 OK in 77ms (Views: 74.9ms | ActiveRecord: 0.4ms | Allocations: 7213)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:58:47 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 6.7ms | Allocations: 914)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.5ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 4.5ms | Allocations: 1095)
+Completed 200 OK in 82ms (Views: 78.9ms | ActiveRecord: 0.5ms | Allocations: 8771)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:58:48 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.8ms | Allocations: 643)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 2.7ms | Allocations: 592)
+Completed 200 OK in 89ms (Views: 87.4ms | ActiveRecord: 0.4ms | Allocations: 7208)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:58:49 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 2.9ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.8ms | Allocations: 592)
+Completed 200 OK in 61ms (Views: 58.5ms | ActiveRecord: 0.3ms | Allocations: 7191)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:58:49 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.0ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 2.7ms | Allocations: 592)
+Completed 200 OK in 64ms (Views: 62.6ms | ActiveRecord: 0.3ms | Allocations: 7189)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:58:50 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.3ms | Allocations: 644)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.9ms | Allocations: 592)
+Completed 200 OK in 64ms (Views: 62.3ms | ActiveRecord: 0.3ms | Allocations: 7204)
+
+
+Started GET "/" for ::1 at 2020-01-14 05:59:05 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 7.1ms | Allocations: 919)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.9ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 8.8ms | Allocations: 1091)
+Completed 200 OK in 117ms (Views: 112.0ms | ActiveRecord: 0.4ms | Allocations: 8774)
+
+
+Started GET "/meeting_points?class=btn+btn-primary" for ::1 at 2020-01-14 06:04:33 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"btn btn-primary"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.5ms | Allocations: 914)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 5.3ms | Allocations: 1127)
+Completed 200 OK in 81ms (Views: 78.0ms | ActiveRecord: 0.3ms | Allocations: 8806)
+
+
+Started GET "/meeting_points?class=btn+btn-primary" for ::1 at 2020-01-14 06:05:20 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"btn btn-primary"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 911)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 4.6ms | Allocations: 1088)
+Completed 200 OK in 73ms (Views: 69.7ms | ActiveRecord: 0.3ms | Allocations: 8765)
+
+
+Started GET "/meeting_points?class=nav-link" for ::1 at 2020-01-14 06:05:24 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"nav-link"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.0ms | Allocations: 643)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 2.0ms | Allocations: 592)
+Completed 200 OK in 63ms (Views: 61.8ms | ActiveRecord: 0.3ms | Allocations: 7206)
+
+
+Started GET "/meeting_points?class=nav-link" for ::1 at 2020-01-14 06:05:25 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"nav-link"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.4ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 2.7ms | Allocations: 592)
+Completed 200 OK in 86ms (Views: 84.4ms | ActiveRecord: 0.4ms | Allocations: 7195)
+
+
+Started GET "/meeting_points?class=nav-link" for ::1 at 2020-01-14 06:05:26 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"nav-link"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.4ms | Allocations: 643)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.9ms | Allocations: 592)
+Completed 200 OK in 62ms (Views: 60.5ms | ActiveRecord: 0.3ms | Allocations: 7205)
+
+
+Started GET "/meeting_points?class=nav-link" for ::1 at 2020-01-14 06:05:28 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"nav-link"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 643)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 2.2ms | Allocations: 592)
+Completed 200 OK in 69ms (Views: 67.2ms | ActiveRecord: 0.4ms | Allocations: 7195)
+
+
+Started GET "/meeting_points?class=nav-link" for ::1 at 2020-01-14 06:05:30 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"nav-link"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 4.6ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 3.0ms | Allocations: 592)
+Completed 200 OK in 69ms (Views: 67.7ms | ActiveRecord: 0.3ms | Allocations: 7196)
+
+
+Started GET "/meeting_points?class=nav-link" for ::1 at 2020-01-14 06:05:31 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"nav-link"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.8ms | Allocations: 643)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.9ms | Allocations: 592)
+Completed 200 OK in 61ms (Views: 59.0ms | ActiveRecord: 0.3ms | Allocations: 7210)
+
+
+Started GET "/meeting_points?class=nav-link" for ::1 at 2020-01-14 06:05:32 +0100
+Processing by MeetingPointsController#index as HTML
+  Parameters: {"class"=>"nav-link"}
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.4ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.7ms | Allocations: 592)
+Completed 200 OK in 69ms (Views: 67.3ms | ActiveRecord: 0.4ms | Allocations: 7213)
+
+
+DEPRECATION WARNING: Using `bin/rake routes` is deprecated and will be removed in Rails 6.1. Use `bin/rails routes` instead.
+ (called from load at C:/Ruby25-x64/bin/rake:23)
+Started GET "/" for ::1 at 2020-01-14 06:10:43 +0100
+  [1m[35m (5.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 9.8ms | Allocations: 1837)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 1.3ms | Allocations: 113)
+  Rendered shared/_headers.html.erb (Duration: 627.5ms | Allocations: 149607)
+Completed 500 Internal Server Error in 830ms (ActiveRecord: 1.2ms | Allocations: 168038)
+
+
+  
+ActionView::Template::Error (undefined local variable or method `group_memebers_path' for #<#<Class:0x000000000a1c7140>:0x000000000a1c4dc8>
+Did you mean?  group_members_path
+               group_member_path
+               group_members_url
+               group_leaders_path
+               group_leader_path):
+     6: 		<%= link_to "Units" , units_path, class: "nav-link"%>
+     7: 		<%= link_to "Groups", groups_path, class: "nav-link" %> 
+     8: 		<%= link_to "Group Leaders", group_leaders_path, class: "nav-link" %>
+     9: 		<%= link_to "Group Members", group_memebers_path, class: "nav-link" %> 
+    10: 		<%= link_to "Meeting Info", meeting_points_path, class: "nav-link" %> 
+    11:     </ul>
+    12:   </div>
+  
+app/views/shared/_headers.html.erb:9
+app/views/layouts/application.html.erb:15
+Started GET "/" for ::1 at 2020-01-14 06:11:09 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.4ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 5.6ms | Allocations: 936)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 3.8ms | Allocations: 777)
+Completed 200 OK in 72ms (Views: 68.7ms | ActiveRecord: 0.4ms | Allocations: 8538)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:11:11 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 38.5ms | Allocations: 10302)
+Completed 500 Internal Server Error in 53ms (ActiveRecord: 3.0ms | Allocations: 12290)
+
+
+  
+ActionView::Template::Error (undefined method `name' for #<User:0x0000000007f25c90>):
+    16:   <tbody>
+    17:     <% @users.each do |user| %>
+    18:       <tr>
+    19:         <td><%= user.name %></td>
+    20:         <td><%= user.email %></td>
+    21:         <td><%= user.contact_number %></td>
+    22:         <td><%= user.remarks %></td>
+  
+app/views/users/index.html.erb:19
+app/views/users/index.html.erb:17
+Started GET "/users" for ::1 at 2020-01-14 06:12:24 +0100
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 26.5ms | Allocations: 8727)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 4.1ms | Allocations: 777)
+Completed 200 OK in 103ms (Views: 91.7ms | ActiveRecord: 2.4ms | Allocations: 17565)
+
+
+Started GET "/units" for ::1 at 2020-01-14 06:12:27 +0100
+Processing by UnitsController#index as HTML
+  Rendering units/index.html.erb within layouts/application
+  [1m[36mUnit Load (0.7ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  ↳ app/views/units/index.html.erb:14
+  Rendered units/index.html.erb within layouts/application (Duration: 14.8ms | Allocations: 4184)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.7ms | Allocations: 287)
+Completed 200 OK in 95ms (Views: 71.9ms | ActiveRecord: 2.0ms | Allocations: 12524)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:12:28 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 21.0ms | Allocations: 5123)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 287)
+Completed 200 OK in 101ms (Views: 84.2ms | ActiveRecord: 2.7ms | Allocations: 13571)
+
+
+Started GET "/group_leaders" for ::1 at 2020-01-14 06:12:30 +0100
+Processing by GroupLeadersController#index as HTML
+  Rendering group_leaders/index.html.erb within layouts/application
+  [1m[36mGroupLeader Load (0.4ms)[0m  [1m[34mSELECT "group_leaders".* FROM "group_leaders"[0m
+  ↳ app/views/group_leaders/index.html.erb:13
+  Rendered group_leaders/index.html.erb within layouts/application (Duration: 6.7ms | Allocations: 1268)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 287)
+Completed 200 OK in 75ms (Views: 66.2ms | ActiveRecord: 1.1ms | Allocations: 9637)
+
+
+Started GET "/group_members" for ::1 at 2020-01-14 06:12:32 +0100
+Processing by GroupMembersController#index as HTML
+  Rendering group_members/index.html.erb within layouts/application
+  [1m[36mGroupMember Load (0.5ms)[0m  [1m[34mSELECT "group_members".* FROM "group_members"[0m
+  ↳ app/views/group_members/index.html.erb:13
+  Rendered group_members/index.html.erb within layouts/application (Duration: 8.8ms | Allocations: 1313)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.3ms | Allocations: 287)
+Completed 200 OK in 83ms (Views: 72.6ms | ActiveRecord: 1.8ms | Allocations: 9673)
+
+
+Started GET "/meeting_points" for ::1 at 2020-01-14 06:12:34 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.5ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 6.6ms | Allocations: 1428)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.8ms | Allocations: 287)
+Completed 200 OK in 88ms (Views: 80.9ms | ActiveRecord: 1.3ms | Allocations: 8630)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:12:36 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 8.3ms | Allocations: 1874)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.4ms | Allocations: 287)
+Completed 200 OK in 66ms (Views: 64.0ms | ActiveRecord: 0.4ms | Allocations: 8162)
+
+
+Started GET "/units" for ::1 at 2020-01-14 06:12:37 +0100
+Processing by UnitsController#index as HTML
+  Rendering units/index.html.erb within layouts/application
+  [1m[36mUnit Load (1.2ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  ↳ app/views/units/index.html.erb:14
+  Rendered units/index.html.erb within layouts/application (Duration: 10.8ms | Allocations: 1027)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 287)
+Completed 200 OK in 77ms (Views: 74.0ms | ActiveRecord: 1.2ms | Allocations: 7303)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:12:40 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 9.9ms | Allocations: 1980)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 287)
+Completed 200 OK in 77ms (Views: 74.2ms | ActiveRecord: 0.5ms | Allocations: 8254)
+
+
+Started GET "/group_leaders" for ::1 at 2020-01-14 06:12:41 +0100
+Processing by GroupLeadersController#index as HTML
+  Rendering group_leaders/index.html.erb within layouts/application
+  [1m[36mGroupLeader Load (0.3ms)[0m  [1m[34mSELECT "group_leaders".* FROM "group_leaders"[0m
+  ↳ app/views/group_leaders/index.html.erb:13
+  Rendered group_leaders/index.html.erb within layouts/application (Duration: 4.1ms | Allocations: 648)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.9ms | Allocations: 287)
+Completed 200 OK in 74ms (Views: 71.6ms | ActiveRecord: 0.3ms | Allocations: 6923)
+
+
+Started GET "/group_members" for ::1 at 2020-01-14 06:12:41 +0100
+Processing by GroupMembersController#index as HTML
+  Rendering group_members/index.html.erb within layouts/application
+  [1m[36mGroupMember Load (0.3ms)[0m  [1m[34mSELECT "group_members".* FROM "group_members"[0m
+  ↳ app/views/group_members/index.html.erb:13
+  Rendered group_members/index.html.erb within layouts/application (Duration: 4.0ms | Allocations: 647)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.8ms | Allocations: 287)
+Completed 200 OK in 70ms (Views: 68.1ms | ActiveRecord: 0.3ms | Allocations: 6923)
+
+
+Started GET "/meeting_points" for ::1 at 2020-01-14 06:12:42 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.3ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 3.8ms | Allocations: 642)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 280)
+Completed 200 OK in 63ms (Views: 61.4ms | ActiveRecord: 0.3ms | Allocations: 6893)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:12:44 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 6.1ms | Allocations: 1865)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 280)
+Completed 200 OK in 64ms (Views: 62.6ms | ActiveRecord: 0.4ms | Allocations: 8127)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:16:07 +0100
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 26.0ms | Allocations: 8731)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 3.9ms | Allocations: 777)
+Completed 200 OK in 99ms (Views: 89.1ms | ActiveRecord: 2.3ms | Allocations: 17555)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:16:09 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 7.7ms | Allocations: 1870)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.4ms | Allocations: 280)
+Completed 200 OK in 67ms (Views: 65.6ms | ActiveRecord: 0.3ms | Allocations: 8139)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:16:09 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 10.8ms | Allocations: 1865)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 280)
+Completed 200 OK in 66ms (Views: 64.9ms | ActiveRecord: 0.4ms | Allocations: 8130)
+
+
+Started GET "/units" for ::1 at 2020-01-14 06:16:10 +0100
+Processing by UnitsController#index as HTML
+  Rendering units/index.html.erb within layouts/application
+  [1m[36mUnit Load (0.7ms)[0m  [1m[34mSELECT "units".* FROM "units"[0m
+  ↳ app/views/units/index.html.erb:14
+  Rendered units/index.html.erb within layouts/application (Duration: 17.7ms | Allocations: 4145)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.3ms | Allocations: 287)
+Completed 200 OK in 93ms (Views: 83.0ms | ActiveRecord: 2.2ms | Allocations: 11962)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:16:11 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 6.1ms | Allocations: 1874)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 287)
+Completed 200 OK in 72ms (Views: 70.1ms | ActiveRecord: 0.4ms | Allocations: 8142)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:37 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.8ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 18.3ms | Allocations: 5116)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.5ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 3.7ms | Allocations: 777)
+Completed 200 OK in 92ms (Views: 81.9ms | ActiveRecord: 2.2ms | Allocations: 14470)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:37 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 8.1ms | Allocations: 1976)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 280)
+Completed 200 OK in 65ms (Views: 63.1ms | ActiveRecord: 0.3ms | Allocations: 8243)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:38 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 8.2ms | Allocations: 1971)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 280)
+Completed 200 OK in 66ms (Views: 65.1ms | ActiveRecord: 0.3ms | Allocations: 8236)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:56 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.4ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 7.5ms | Allocations: 2219)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 5.3ms | Allocations: 776)
+Completed 200 OK in 91ms (Views: 88.0ms | ActiveRecord: 0.4ms | Allocations: 10082)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:57 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 7.4ms | Allocations: 1976)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 280)
+Completed 200 OK in 95ms (Views: 93.8ms | ActiveRecord: 0.3ms | Allocations: 8237)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:57 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.4ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 7.1ms | Allocations: 1971)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 280)
+Completed 200 OK in 66ms (Views: 64.4ms | ActiveRecord: 0.4ms | Allocations: 8228)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:58 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 9.7ms | Allocations: 1971)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.6ms | Allocations: 280)
+Completed 200 OK in 74ms (Views: 72.5ms | ActiveRecord: 0.5ms | Allocations: 8232)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:16:59 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 6.8ms | Allocations: 1971)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.3ms | Allocations: 280)
+Completed 200 OK in 68ms (Views: 66.9ms | ActiveRecord: 0.3ms | Allocations: 8249)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:18:39 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.6ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 9.8ms | Allocations: 2222)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.6ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 3.8ms | Allocations: 777)
+Completed 200 OK in 77ms (Views: 73.8ms | ActiveRecord: 0.6ms | Allocations: 10076)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:18:39 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 7.6ms | Allocations: 1976)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 280)
+Completed 200 OK in 64ms (Views: 62.5ms | ActiveRecord: 0.3ms | Allocations: 8249)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:18:41 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 6.5ms | Allocations: 1971)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.5ms | Allocations: 280)
+Completed 200 OK in 81ms (Views: 74.1ms | ActiveRecord: 0.3ms | Allocations: 8240)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:18:42 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:14
+  Rendered groups/index.html.erb within layouts/application (Duration: 8.1ms | Allocations: 1971)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 280)
+Completed 200 OK in 66ms (Views: 63.9ms | ActiveRecord: 0.3ms | Allocations: 8226)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:19:58 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.4ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:15
+  Rendered groups/index.html.erb within layouts/application (Duration: 8.6ms | Allocations: 2272)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.8ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 4.4ms | Allocations: 777)
+Completed 200 OK in 87ms (Views: 83.5ms | ActiveRecord: 0.4ms | Allocations: 10142)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:20:07 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:15
+  Rendered groups/index.html.erb within layouts/application (Duration: 10.6ms | Allocations: 2265)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.9ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 5.7ms | Allocations: 776)
+Completed 200 OK in 88ms (Views: 82.9ms | ActiveRecord: 0.3ms | Allocations: 10111)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:20:08 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.3ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:15
+  Rendered groups/index.html.erb within layouts/application (Duration: 7.5ms | Allocations: 1996)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.8ms | Allocations: 280)
+Completed 200 OK in 68ms (Views: 66.4ms | ActiveRecord: 0.3ms | Allocations: 8279)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:20:18 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.4ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:15
+  Rendered groups/index.html.erb within layouts/application (Duration: 7.6ms | Allocations: 2266)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 1.1ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 7.0ms | Allocations: 777)
+Completed 200 OK in 91ms (Views: 88.2ms | ActiveRecord: 0.4ms | Allocations: 10125)
+
+
+Started GET "/groups" for ::1 at 2020-01-14 06:20:19 +0100
+Processing by GroupsController#index as HTML
+  Rendering groups/index.html.erb within layouts/application
+  [1m[36mGroup Load (0.4ms)[0m  [1m[34mSELECT "groups".* FROM "groups"[0m
+  ↳ app/views/groups/index.html.erb:15
+  Rendered groups/index.html.erb within layouts/application (Duration: 8.6ms | Allocations: 1996)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.2ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.7ms | Allocations: 280)
+Completed 200 OK in 82ms (Views: 80.4ms | ActiveRecord: 0.4ms | Allocations: 8257)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:20:29 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 7.7ms | Allocations: 2154)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 287)
+Completed 200 OK in 68ms (Views: 65.1ms | ActiveRecord: 0.4ms | Allocations: 9028)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:22:06 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 9.0ms | Allocations: 2155)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 5.1ms | Allocations: 776)
+Completed 200 OK in 86ms (Views: 82.0ms | ActiveRecord: 0.4ms | Allocations: 10014)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:22:07 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 8.1ms | Allocations: 1870)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 280)
+Completed 200 OK in 68ms (Views: 66.7ms | ActiveRecord: 0.4ms | Allocations: 8141)
+
+
+Started GET "/group_members" for ::1 at 2020-01-14 06:22:13 +0100
+Processing by GroupMembersController#index as HTML
+  Rendering group_members/index.html.erb within layouts/application
+  [1m[36mGroupMember Load (0.4ms)[0m  [1m[34mSELECT "group_members".* FROM "group_members"[0m
+  ↳ app/views/group_members/index.html.erb:14
+  Rendered group_members/index.html.erb within layouts/application (Duration: 6.5ms | Allocations: 1333)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 4.1ms | Allocations: 776)
+Completed 200 OK in 83ms (Views: 74.0ms | ActiveRecord: 1.2ms | Allocations: 10645)
+
+
+Started GET "/group_members" for ::1 at 2020-01-14 06:22:14 +0100
+Processing by GroupMembersController#index as HTML
+  Rendering group_members/index.html.erb within layouts/application
+  [1m[36mGroupMember Load (0.3ms)[0m  [1m[34mSELECT "group_members".* FROM "group_members"[0m
+  ↳ app/views/group_members/index.html.erb:14
+  Rendered group_members/index.html.erb within layouts/application (Duration: 3.4ms | Allocations: 642)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.3ms | Allocations: 280)
+Completed 200 OK in 63ms (Views: 61.6ms | ActiveRecord: 0.3ms | Allocations: 6912)
+
+
+Started GET "/users" for ::1 at 2020-01-14 06:23:03 +0100
+Processing by UsersController#index as HTML
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:17
+  Rendered users/index.html.erb within layouts/application (Duration: 8.5ms | Allocations: 2154)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.7ms | Allocations: 109)
+  Rendered shared/_headers.html.erb (Duration: 4.4ms | Allocations: 776)
+Completed 200 OK in 83ms (Views: 75.3ms | ActiveRecord: 0.4ms | Allocations: 10007)
+
+
+Started GET "/group_leaders" for ::1 at 2020-01-14 06:23:04 +0100
+Processing by GroupLeadersController#index as HTML
+  Rendering group_leaders/index.html.erb within layouts/application
+  [1m[36mGroupLeader Load (0.7ms)[0m  [1m[34mSELECT "group_leaders".* FROM "group_leaders"[0m
+  ↳ app/views/group_leaders/index.html.erb:13
+  Rendered group_leaders/index.html.erb within layouts/application (Duration: 9.4ms | Allocations: 1256)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 2.0ms | Allocations: 287)
+Completed 200 OK in 97ms (Views: 84.7ms | ActiveRecord: 1.8ms | Allocations: 9547)
+
+
+Started GET "/group_members" for ::1 at 2020-01-14 06:23:05 +0100
+Processing by GroupMembersController#index as HTML
+  Rendering group_members/index.html.erb within layouts/application
+  [1m[36mGroupMember Load (0.3ms)[0m  [1m[34mSELECT "group_members".* FROM "group_members"[0m
+  ↳ app/views/group_members/index.html.erb:13
+  Rendered group_members/index.html.erb within layouts/application (Duration: 4.1ms | Allocations: 870)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 11)
+  Rendered shared/_headers.html.erb (Duration: 1.6ms | Allocations: 287)
+Completed 200 OK in 238ms (Views: 234.6ms | ActiveRecord: 0.3ms | Allocations: 7723)
+
+
+Started GET "/group_members" for ::1 at 2020-01-14 06:23:07 +0100
+Processing by GroupMembersController#index as HTML
+  Rendering group_members/index.html.erb within layouts/application
+  [1m[36mGroupMember Load (0.3ms)[0m  [1m[34mSELECT "group_members".* FROM "group_members"[0m
+  ↳ app/views/group_members/index.html.erb:13
+  Rendered group_members/index.html.erb within layouts/application (Duration: 3.1ms | Allocations: 640)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.2ms | Allocations: 280)
+Completed 200 OK in 68ms (Views: 66.9ms | ActiveRecord: 0.3ms | Allocations: 6898)
+
+
+  [1m[35m (4.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+DEPRECATION WARNING: Class level methods will no longer inherit scoping from `get_all_users_email` in Rails 6.1. To continue using the scoped relation, pass it into the block directly. To instead access the full set of models, as Rails 6.1 will, use `User.unscoped`, or `User.default_scoped` if a model has default scopes. (called from block in <class:User> at C:/Users/sony/sample/app/models/user.rb:7)
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "users"."email" FROM "users"[0m
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+DEPRECATION WARNING: SourceAnnotationExtractor is deprecated! Use Rails::SourceAnnotationExtractor instead. (called from readline_attempted_completion_function at C:/Ruby25-x64/lib/ruby/site_ruby/readline.rb:136)
+Started GET "/group_members" for 127.0.0.1 at 2020-01-14 06:45:09 +0100
+  [1m[35m (7.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by GroupMembersController#index as HTML
+  Rendering group_members/index.html.erb within layouts/application
+  [1m[36mGroupMember Load (0.5ms)[0m  [1m[34mSELECT "group_members".* FROM "group_members"[0m
+  ↳ app/views/group_members/index.html.erb:13
+  Rendered group_members/index.html.erb within layouts/application (Duration: 11.2ms | Allocations: 1711)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 1.0ms | Allocations: 113)
+  Rendered shared/_headers.html.erb (Duration: 7.0ms | Allocations: 795)
+Completed 200 OK in 251ms (Views: 201.1ms | ActiveRecord: 1.6ms | Allocations: 20206)
+
+
+Started GET "/group_members/new" for 127.0.0.1 at 2020-01-14 06:45:12 +0100
+Processing by GroupMembersController#new as HTML
+  Rendering group_members/new.html.erb within layouts/application
+  Rendered group_members/_form.html.erb (Duration: 12.7ms | Allocations: 3481)
+  Rendered group_members/new.html.erb within layouts/application (Duration: 16.1ms | Allocations: 3851)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 0.1ms | Allocations: 10)
+  Rendered shared/_headers.html.erb (Duration: 1.1ms | Allocations: 285)
+Completed 200 OK in 96ms (Views: 77.9ms | ActiveRecord: 1.4ms | Allocations: 14377)
+
+
+Started POST "/group_members" for 127.0.0.1 at 2020-01-14 06:45:13 +0100
+Processing by GroupMembersController#create as HTML
+  Parameters: {"authenticity_token"=>"yl4D+MWGdBOAI3eKb0xw4fANzrfnWvAlv0cCBfkhLw/UnDxWoOC2SQnoBvXYoaOhAOgIs3wKWPrU91ybyXLx9A==", "commit"=>"Create Group member"}
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/group_members_controller.rb:30:in `block in create'
+  [1m[36mGroupMember Exists? (22.6ms)[0m  [1m[34mSELECT 1 AS one FROM "group_members" WHERE "group_members"."user_id" IS NULL AND "group_members"."group_id" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  ↳ app/controllers/group_members_controller.rb:30:in `block in create'
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/group_members_controller.rb:30:in `block in create'
+Completed 500 Internal Server Error in 49ms (ActiveRecord: 22.9ms | Allocations: 5076)
+
+
+  
+ActiveRecord::StatementInvalid (SQLite3::SQLException: no such column: group_members.group_id):
+  
+app/controllers/group_members_controller.rb:30:in `block in create'
+app/controllers/group_members_controller.rb:29:in `create'
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-14' and '2020-01-08' ) LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mGroup Load (0.7ms)[0m  [1m[34mSELECT "groups".* FROM "groups" ORDER BY "groups"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-13' and '2020-01-20' ) LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-13' and '2020-01-08' ) LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mGroup Load (0.7ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-15' and '2020-01-08' ) LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-08' and '2020-01-15' ) LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mGroup Load (0.5ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-08' and '2020-01-14' ) LIMIT ?[0m  [["LIMIT", 11]]
+Started POST "/group_members" for ::1 at 2020-01-14 07:26:40 +0100
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by GroupMembersController#create as HTML
+  Parameters: {"authenticity_token"=>"yl4D+MWGdBOAI3eKb0xw4fANzrfnWvAlv0cCBfkhLw/UnDxWoOC2SQnoBvXYoaOhAOgIs3wKWPrU91ybyXLx9A==", "commit"=>"Create Group member"}
+DEPRECATION WARNING: Class level methods will no longer inherit scoping from `get_recent_week_group` in Rails 6.1. To continue using the scoped relation, pass it into the block directly. To instead access the full set of models, as Rails 6.1 will, use `Group.unscoped`, or `Group.default_scoped` if a model has default scopes. (called from block in <class:Group> at C:/Users/sony/sample/app/models/group.rb:8)
+  [1m[36mGroup Load (0.7ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-08' and '2020-01-14' )[0m
+  ↳ app/models/group_member.rb:9:in `block in <class:GroupMember>'
+Completed 500 Internal Server Error in 55ms (ActiveRecord: 2.3ms | Allocations: 13282)
+
+
+  
+NoMethodError (undefined method `id' for #<Group::ActiveRecord_Relation:0x0000000007c69010>
+Did you mean?  ids):
+  
+app/models/group_member.rb:9:in `block in <class:GroupMember>'
+app/controllers/group_members_controller.rb:27:in `create'
+Started GET "/group_members/new" for ::1 at 2020-01-14 07:46:47 +0100
+  [1m[35m (5.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by GroupMembersController#new as HTML
+DEPRECATION WARNING: Class level methods will no longer inherit scoping from `get_recent_week_group` in Rails 6.1. To continue using the scoped relation, pass it into the block directly. To instead access the full set of models, as Rails 6.1 will, use `Group.unscoped`, or `Group.default_scoped` if a model has default scopes. (called from block in <class:Group> at C:/Users/sony/sample/app/models/group.rb:8)
+  [1m[36mGroup Load (0.7ms)[0m  [1m[34mSELECT "groups".* FROM "groups" WHERE (name between '2020-01-08' and '2020-01-14' )[0m
+  ↳ app/models/group_member.rb:14:in `block in <class:GroupMember>'
+Completed 500 Internal Server Error in 78ms (ActiveRecord: 4.7ms | Allocations: 14546)
+
+
+  
+NoMethodError (undefined method `id' for #<Group::ActiveRecord_Relation:0x00000000080cd2a0>
+Did you mean?  ids):
+  
+app/models/group_member.rb:14:in `block in <class:GroupMember>'
+app/controllers/group_members_controller.rb:17:in `new'
+Started GET "/" for ::1 at 2020-01-14 07:46:53 +0100
+Processing by MeetingPointsController#index as HTML
+  Rendering meeting_points/index.html.erb within layouts/application
+  [1m[36mMeetingPoint Load (0.6ms)[0m  [1m[34mSELECT "meeting_points".* FROM "meeting_points"[0m
+  ↳ app/views/meeting_points/index.html.erb:16
+  Rendered meeting_points/index.html.erb within layouts/application (Duration: 9.2ms | Allocations: 1500)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_title.html.erb (Duration: 1.1ms | Allocations: 112)
+  Rendered shared/_headers.html.erb (Duration: 5.9ms | Allocations: 794)
+Completed 200 OK in 207ms (Views: 181.8ms | ActiveRecord: 1.6ms | Allocations: 17407)
+
+
